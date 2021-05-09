@@ -46,7 +46,7 @@ app.get('/squadStats', async (req, res) => {
             'ya boi nar',
             'l swordzzz'
         ],
-        minSquadSize: '2',
+        minSquadSize: '3',
         game: 'Halo 3'
     });
 
