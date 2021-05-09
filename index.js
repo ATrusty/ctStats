@@ -37,7 +37,7 @@ app.get('/squadStats', async (req, res) => {
 
     let result = await lib.halo.mcc['@0.0.11'].squad.activity({
         gamertags: [
-            'TR Trusty',
+            'sagwasswagga',
             'Cragle 3',
             'A Pregnant Nunn',
             'babaganoosh069',
@@ -50,11 +50,65 @@ app.get('/squadStats', async (req, res) => {
         game: 'Halo 3'
     });
 
-    console.log(result);
+
+    let games = result.games;
+
+    /*
+        Aggregated Squad Stats objects will be of the form
+        {
+            win: bool,
+            avgHeadshotRate: double,
+            avgKD: double,
+            avgScore: double,
+            avgKills: double,
+            avgDeaths: double,
+            avgAssists: double,
+            playedAt: DateTime
+        }
+
+        This is for each game, so all of our stats will be averaged together
+    */
+    let aggregSqdStats = [];
+    
+    for(let match of games) {
+        let numStats = match.stats.length;
+        let win = match.squadWon;
+        let avgHeadshotRate = 0.0;
+        let avgKD = 0.0;
+        let avgScore = 0.0;
+        let avgKills = 0.0;
+        let avgDeaths = 0.0;
+        let avgAssists = 0.0;
+        let playedAt = match.playedAt;
+
+        for(let stat of match.stats) {
+            //normalize & aggregate them all here
+            avgHeadshotRate+=(stat.headshotRate/numStats);
+            avgKD+=(stat.killDeathRatio/numStats);
+            avgScore+=(stat.score/numStats);
+            avgKills+=(stat.kills/numStats);
+            avgDeaths+=(stat.deaths/numStats);
+            avgAssists+=(stat.assists/numStats);
+        }
+
+        let aggStat = {
+            win: win,
+            avgHeadshotRate: avgHeadshotRate,
+            avgKD: avgKD,
+            avgScore: avgScore,
+            avgKills: avgKills,
+            avgDeaths: avgDeaths,
+            avgAssists: avgAssists,
+            playedAt: playedAt
+        };
+        
+        aggregSqdStats.push(aggStat);
+        
+    }
 
 
     retVal = {
-        hi2: "hi2 :)"
+        data: aggregSqdStats
     };
 
     res.send(retVal);
