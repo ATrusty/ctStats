@@ -156,7 +156,6 @@ app.get('/squadStatsIndiv', async (req, res) => {
 
         for(let stat of match.stats) {
             if(stat.gamertag.toUpperCase() == gt.toUpperCase()) {
-                console.log(stat)
                 //aggregate them all here
                 avgHeadshotRate+=(stat.headshotRate);
                 avgKD+=(stat.killDeathRatio);
