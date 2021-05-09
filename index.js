@@ -12,5 +12,5 @@ app.use(function (req, res, next) {
   });
   
   app.listen(port, () => {
-    console.log(`CSCI HW8 app listening at http://localhost:${port}`)
+    console.log(`CT STATS app listening at http://localhost:${port}`)
   });
