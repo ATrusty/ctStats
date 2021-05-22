@@ -23,7 +23,7 @@ app.get('/myStats', async (req, res) => {
         numGames = 20;
     }
 
-    let result = await lib.halo.mcc['@0.0.11'].games.history({
+    let result = await lib.halo.mcc['@0.1.0'].games.history({
         gamertag: gamertag,
         count: numGames
     });
@@ -39,9 +39,9 @@ app.get('/myStats', async (req, res) => {
 //stats squad group
 app.get('/squadStats', async (req, res) => {
 
-    let result = await lib.halo.mcc['@0.0.11'].squad.activity({
+    let result = await lib.halo.mcc['@0.1.0'].squad.activity({
         gamertags: [
-            'sagwasswagga',
+            'TR Trusty',
             'Cragle 3',
             'A Pregnant Nunn',
             'babaganoosh069',
@@ -123,10 +123,14 @@ app.get('/squadStats', async (req, res) => {
 app.get('/squadStatsIndiv', async (req, res) => {
 
     let gt = req.query.gt;
-
-    let result = await lib.halo.mcc['@0.0.11'].squad.activity({
+    let minSquad = req.query.minSquad;
+    if(minSquad == undefined || minSquad == null) {
+        minSquad = 3;
+    }
+    //console.log("ms: " + minSquad);
+    let result = await lib.halo.mcc['@0.1.0'].squad.activity({
         gamertags: [
-            'sagwasswagga',
+            'TR Trusty',
             'Cragle 3',
             'A Pregnant Nunn',
             'babaganoosh069',
@@ -135,7 +139,7 @@ app.get('/squadStatsIndiv', async (req, res) => {
             'ya boi nar',
             'l swordzzz'
         ],
-        minSquadSize: '3',
+        minSquadSize: minSquad,
         game: 'Halo 3'
     });
 
